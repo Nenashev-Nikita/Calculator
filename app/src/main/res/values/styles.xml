@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Button_operation">
+        <item name="backgroundTint">@color/gray</item>
+    </style>
+    <style name="Button_operation.button_text" >
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="Button_number">
+        <item name="backgroundTint">@color/gray_3</item>
+    </style>
+    <style name="Button_number.button_text" >
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+</resources>
