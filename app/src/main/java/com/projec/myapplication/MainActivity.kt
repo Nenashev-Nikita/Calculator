@@ -8,7 +8,7 @@ import android.widget.TextView
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
-
+aboba
     private var inputStr: String = ""
     private val operations = "*/+-."
     private var subInputStr: String = ""
