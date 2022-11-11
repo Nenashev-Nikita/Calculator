@@ -1,9 +1,8 @@
 package com.projec.myapplication
 
-import kotlin.math.exp
-
 class Calculator {
     val operations = "*/+-"
+
     private fun priorityOp(math_expression: String): Char?{
         if ('(' in math_expression)
             return '('
@@ -46,6 +45,13 @@ class Calculator {
 
     fun calc(in_expression: String): String{
         var str = in_expression
+
+        for (i in in_expression.indices) {
+            if (in_expression[i] in operations)
+                break
+            if (i == in_expression.length - 1)
+                return in_expression
+        }
 
         while(true){
             val operation: Char = priorityOp(str) ?: break
@@ -97,9 +103,4 @@ class Calculator {
 
         return formatAnswer(str)
     }
-}
-
-fun main(args: Array<String>){
-    val calc = Calculator()
-    print(calc.calc("(2+2+(4/2))*(3+3)"))
 }
