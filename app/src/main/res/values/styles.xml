@@ -12,7 +12,7 @@
         <item name="backgroundTint">@color/gray_3</item>
     </style>
     <style name="Button_number.button_text" >
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/orange</item>
         <item name="android:textSize">30sp</item>
     </style>
 </resources>
