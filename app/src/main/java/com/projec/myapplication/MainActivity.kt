@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         buttonOne.setOnClickListener {
             inputStr += "1"
             textView.text = inputStr
+            historyTextView.text = "Zalupa"
         }
 
         val buttonTwo: Button = findViewById(R.id.button_two)
