@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
 
     private var inputStr: String = ""
     private val operations = "*/+-."
+    private var subInputStr: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         buttonOne.setOnClickListener {
             inputStr += "1"
             textView.text = inputStr
-            historyTextView.text = "Chlen"
         }
 
         val buttonTwo: Button = findViewById(R.id.button_two)
