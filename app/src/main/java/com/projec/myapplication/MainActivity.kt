@@ -12,25 +12,27 @@ class MainActivity : AppCompatActivity() {
     private var outputStr: String = ""
     private val operations = "*/+-."
     private val wkOperations = "*/+-()"
-    private val brackets = "()"
-    private var isNormalZero: Boolean = true
     private var isActive: Boolean = false
 
     private val calculator: Calculator = Calculator()
 
-    private fun checkIsAction(inputStr: String): Boolean {
-        for (i in 0..inputStr.length - 1) {
-            if (inputStr[i] in operations)
-                return false
-        }
-        return true
-    }
-
     private fun printRes(inputStr: String): String {
-        if (inputStr[inputStr.length - 1] !in wkOperations) {
+        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] !in wkOperations) {
             outputStr = calculator.calc(inputStr)
         }
         return outputStr
+    }
+
+    private fun checkDot(inputStr: String): Boolean {
+        for (i in inputStr.length - 2 downTo 0) {
+            if (inputStr[i] in wkOperations) {
+                break
+            }
+            if (inputStr[i] == '.') {
+                return true
+            }
+        }
+        return false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -275,9 +277,11 @@ class MainActivity : AppCompatActivity() {
                 textView.text = subInputStr
                 historyTextView.text = printRes(inputStr)
             }
-            inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-            textView.text = inputStr
-            historyTextView.text = printRes(inputStr)
+            else {
+                inputStr = inputStr.replaceFirst(".$".toRegex(), "")
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
+            }
         }
 
         val buttonClear: Button = findViewById(R.id.button15)
@@ -293,16 +297,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonLeftBracket: Button = findViewById(R.id.button5)
         buttonLeftBracket.setOnClickListener {
-            if (inputStr.isEmpty()) {
-                textView.text = inputStr
-            }
-            else {
                 isActive = true
                 subInputStr = inputStr
                 subInputStr += "("
                 textView.text = subInputStr
                 historyTextView.text = printRes(inputStr)
-            }
         }
 
         val buttonRightBracket: Button = findViewById(R.id.button7)
@@ -331,9 +330,15 @@ class MainActivity : AppCompatActivity() {
                     historyTextView.text = printRes(inputStr)
                 }
                 else {
-                    inputStr += "."
-                    textView.text = inputStr
-                    historyTextView.text = printRes(inputStr)
+                    if (!checkDot(inputStr)) {
+                        inputStr += "."
+                        textView.text = inputStr
+                        historyTextView.text = printRes(inputStr)
+                    }
+                    else {
+                        textView.text = inputStr
+                        historyTextView.text = printRes(inputStr)
+                    }
                 }
             }
         }
