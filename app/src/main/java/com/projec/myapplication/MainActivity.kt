@@ -17,6 +17,14 @@ class MainActivity : AppCompatActivity() {
     private val calculator: Calculator = Calculator()
 
     private fun printRes(inputStr: String): String {
+        /*if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
+            outputStr = inputStr.replaceFirst(".$".toRegex(), "")
+            outputStr = calculator.calc(outputStr)
+        }
+        else */
+        if (inputStr.isEmpty()) {
+            outputStr = inputStr
+        }
         if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] !in wkOperations) {
             outputStr = calculator.calc(inputStr)
         }
@@ -271,6 +279,14 @@ class MainActivity : AppCompatActivity() {
 
         val buttonDelete: Button = findViewById(R.id.button10)
         buttonDelete.setOnClickListener {
+            /*if (inputStr.isEmpty()) {
+                isActive = false
+                textView.text = ""
+                historyTextView.text = ""
+            }*/
+            if (inputStr[inputStr.length - 1] == ')') {
+                isActive = true
+            }
             if (isActive) {
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
                 subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
@@ -324,10 +340,16 @@ class MainActivity : AppCompatActivity() {
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
                 if (isActive) {
-                    inputStr += "."
-                    subInputStr += "."
-                    textView.text = subInputStr
-                    historyTextView.text = printRes(inputStr)
+                    if (!checkDot(inputStr)) {
+                        inputStr += "."
+                        subInputStr += "."
+                        textView.text = subInputStr
+                        historyTextView.text = printRes(inputStr)
+                    }
+                    else {
+                        textView.text = subInputStr
+                        historyTextView.text = printRes(inputStr)
+                    }
                 }
                 else {
                     if (!checkDot(inputStr)) {
@@ -351,7 +373,7 @@ class MainActivity : AppCompatActivity() {
                 if (isActive) {
                     isActive = false
                 }
-                inputStr = calculator.calc(inputStr)
+                inputStr = printRes(inputStr)
                 textView.text = inputStr
             }
         }
