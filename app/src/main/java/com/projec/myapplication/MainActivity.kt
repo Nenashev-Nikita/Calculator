@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-
+bebra
     private var inputStr: String = ""
     private var subInputStr: String = ""
     private var outputStr: String = ""
