@@ -6,7 +6,8 @@ class Calculator {
     private fun priorityOp(math_expression: String): Char?{
         if ('(' in math_expression)
             return '('
-
+        if (math_expression[0] == '-')
+            return null
         var priorityOp: Char? = null
         val operationsFp = "*/"
         val operationsSp = "+-"
@@ -55,7 +56,6 @@ class Calculator {
 
         while(true){
             val operation: Char = priorityOp(str) ?: break
-
             for (i in str.indices){
                 if (str[i] == operation) {
                     if (operation == '('){
@@ -93,6 +93,7 @@ class Calculator {
                             '+' -> strRes = (list[0].toFloat() + list[1].toFloat()).toString()
                             '-' -> strRes = (list[0].toFloat() - list[1].toFloat()).toString()
                         }
+                        println("strRes")
                         str = str.replaceFirst(expression, strRes)
                         break
                     }
@@ -104,3 +105,7 @@ class Calculator {
         return formatAnswer(str)
     }
 }
+
+/*fun main(){
+    println(Calculator().calc("2-3"))
+}*/
