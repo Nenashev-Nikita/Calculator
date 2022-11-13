@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         val textView: TextView = findViewById(R.id.textView)
         val historyTextView: TextView = findViewById(R.id.textView4)
 
+        var max_string = 15
+        var count = 0
+
         val buttonOne: Button = findViewById(R.id.button_one)
         buttonOne.setOnClickListener {
             if (isActive) {
@@ -57,11 +61,17 @@ class MainActivity : AppCompatActivity() {
                 subInputStr += "1"
                 textView.text = subInputStr
                 historyTextView.text = printRes(inputStr)
+
             }
             else {
                 inputStr += "1"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
+            }
+            count++
+            if (count>max_string){
+                var toast_max_string = Toast.makeText(getApplicationContext(), "Невозможно ввести более 15 цифр.", Toast.LENGTH_SHORT)
+                toast_max_string.show()
             }
         }
 
