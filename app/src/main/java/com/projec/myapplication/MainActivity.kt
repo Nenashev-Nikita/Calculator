@@ -16,16 +16,15 @@ class MainActivity : AppCompatActivity() {
     private val operations = "*/+-."
     private val wkOperations = "*/+-"
     private var isActive: Boolean = false
-    private var size: Int = 0
 
     private val calculator: Calculator = Calculator()
 
     private fun printRes(inputStr: String): String {
-        /*if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
+        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
             outputStr = inputStr.replaceFirst(".$".toRegex(), "")
             outputStr = calculator.calc(outputStr)
+            return outputStr
         }
-        else */
         if (inputStr.isEmpty()) {
             outputStr = inputStr
         }
@@ -386,10 +385,17 @@ class MainActivity : AppCompatActivity() {
                 historyTextView.text = printRes(inputStr)
             }
             if (isActive) {
-                inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-                subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
-                textView.text = subInputStr
-                historyTextView.text = printRes(inputStr)
+                if (subInputStr[subInputStr.length - 1] in "()") {
+                    subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
+                    textView.text = subInputStr
+                    historyTextView.text = printRes(inputStr)
+                }
+                else {
+                    inputStr = inputStr.replaceFirst(".$".toRegex(), "")
+                    subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
+                    textView.text = subInputStr
+                    historyTextView.text = printRes(inputStr)
+                }
             }
             else {
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
