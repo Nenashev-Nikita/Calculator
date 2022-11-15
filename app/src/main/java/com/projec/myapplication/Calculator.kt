@@ -23,6 +23,10 @@ class Calculator {
         return priorityOp
     }
 
+    private fun findMinus(expression: String){
+
+    }
+
     fun indexClosingBracket(expression: String, indexOpenBracket: Int): Int{
         var k_brackets = 0
         for (i in indexOpenBracket until expression.length){

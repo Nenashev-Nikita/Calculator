@@ -4,15 +4,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+
+    private val MAX_LENGTH: Int = 15
 
     private var inputStr: String = ""
     private var subInputStr: String = ""
     private var outputStr: String = ""
     private val operations = "*/+-."
-    private val wkOperations = "*/+-()"
+    private val wkOperations = "*/+-"
     private var isActive: Boolean = false
+    private var size: Int = 0
 
     private val calculator: Calculator = Calculator()
 
@@ -31,6 +35,19 @@ class MainActivity : AppCompatActivity() {
         return outputStr
     }
 
+    private fun deleteBrackets(inputStr: String): String {
+        outputStr = inputStr
+        for (i in inputStr.indices) {
+            if (inputStr[i] == '(') {
+                outputStr = outputStr.replace("\\(".toRegex(), "")
+            }
+            else if (inputStr[i] == ')') {
+                outputStr = outputStr.replace("\\)".toRegex(), "")
+            }
+        }
+        return outputStr
+    }
+
     private fun checkDot(inputStr: String): Boolean {
         for (i in inputStr.length - 2 downTo 0) {
             if (inputStr[i] in wkOperations) {
@@ -43,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    private fun checkSize(inputStr: String) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,8 +71,15 @@ class MainActivity : AppCompatActivity() {
         val textView: TextView = findViewById(R.id.textView)
         val historyTextView: TextView = findViewById(R.id.textView4)
 
+        val toast = Toast.makeText(applicationContext, "Иди нахуй, пидор. Строка не резиновая", Toast.LENGTH_SHORT)
+
         val buttonOne: Button = findViewById(R.id.button_one)
         buttonOne.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "1"
                 subInputStr += "1"
@@ -67,6 +95,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonTwo: Button = findViewById(R.id.button_two)
         buttonTwo.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "2"
                 subInputStr += "2"
@@ -82,6 +115,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonThree: Button = findViewById(R.id.button_three)
         buttonThree.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "3"
                 subInputStr += "3"
@@ -97,6 +135,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonFour: Button = findViewById(R.id.button_four)
         buttonFour.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "4"
                 subInputStr += "4"
@@ -112,6 +155,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonFive: Button = findViewById(R.id.button_five)
         buttonFive.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "5"
                 subInputStr += "5"
@@ -127,6 +175,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonSix: Button = findViewById(R.id.button_six)
         buttonSix.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "6"
                 subInputStr += "6"
@@ -142,6 +195,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonSeven: Button = findViewById(R.id.button_seven)
         buttonSeven.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "7"
                 subInputStr += "7"
@@ -157,6 +215,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonEight: Button = findViewById(R.id.button_eight)
         buttonEight.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "8"
                 subInputStr += "8"
@@ -172,6 +235,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonNine: Button = findViewById(R.id.button_nine)
         buttonNine.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "9"
                 subInputStr += "9"
@@ -187,6 +255,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonZero: Button = findViewById(R.id.button13)
         buttonZero.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (isActive) {
                 inputStr += "0"
                 subInputStr += "0"
@@ -202,6 +275,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonPlus: Button = findViewById(R.id.button11)
         buttonPlus.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.length == 0)
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
@@ -221,6 +299,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonMinus: Button = findViewById(R.id.button23)
         buttonMinus.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.length == 0) {
                 textView.text = inputStr
             }
@@ -241,6 +324,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonMultiply: Button = findViewById(R.id.button22)
         buttonMultiply.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.length == 0)
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
@@ -260,6 +348,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonDivide: Button = findViewById(R.id.button9)
         buttonDivide.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.length == 0)
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
@@ -279,13 +372,18 @@ class MainActivity : AppCompatActivity() {
 
         val buttonDelete: Button = findViewById(R.id.button10)
         buttonDelete.setOnClickListener {
-            /*if (inputStr.isEmpty()) {
+            if (inputStr.isEmpty()) {
                 isActive = false
                 textView.text = ""
                 historyTextView.text = ""
-            }*/
+                return@setOnClickListener
+            }
             if (inputStr[inputStr.length - 1] == ')') {
                 isActive = true
+                subInputStr = inputStr
+                inputStr = deleteBrackets(inputStr)
+                textView.text = subInputStr
+                historyTextView.text = printRes(inputStr)
             }
             if (isActive) {
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
@@ -313,15 +411,25 @@ class MainActivity : AppCompatActivity() {
 
         val buttonLeftBracket: Button = findViewById(R.id.button5)
         buttonLeftBracket.setOnClickListener {
-                isActive = true
-                subInputStr = inputStr
-                subInputStr += "("
-                textView.text = subInputStr
-                historyTextView.text = printRes(inputStr)
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
+            isActive = true
+            subInputStr = inputStr
+            subInputStr += "("
+            textView.text = subInputStr
+            historyTextView.text = printRes(inputStr)
         }
 
         val buttonRightBracket: Button = findViewById(R.id.button7)
         buttonRightBracket.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.isEmpty()) {
                 textView.text = inputStr
             }
@@ -336,6 +444,11 @@ class MainActivity : AppCompatActivity() {
 
         val buttonDot: Button = findViewById(R.id.button4)
         buttonDot.setOnClickListener {
+            if (inputStr.length == MAX_LENGTH) {
+                toast.show()
+                return@setOnClickListener
+            }
+
             if (inputStr.length == 0)
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
