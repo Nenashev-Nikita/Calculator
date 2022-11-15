@@ -22,14 +22,14 @@ class MainActivity : AppCompatActivity() {
     private fun printRes(inputStr: String): String {
         if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
             outputStr = inputStr.replaceFirst(".$".toRegex(), "")
-            outputStr = calculator.calc(outputStr)
+            outputStr = calculator.formatCalc(outputStr)
             return outputStr
         }
         if (inputStr.isEmpty()) {
             outputStr = inputStr
         }
         if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] !in wkOperations) {
-            outputStr = calculator.calc(inputStr)
+            outputStr = calculator.formatCalc(inputStr)
         }
         return outputStr
     }

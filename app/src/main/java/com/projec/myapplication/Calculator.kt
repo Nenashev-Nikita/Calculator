@@ -1,33 +1,37 @@
 package com.projec.myapplication
 
 class Calculator {
-    val operations = "*/+-"
+    private val operations = "*/+-"
 
-    private fun priorityOp(math_expression: String): Char?{
-        if ('(' in math_expression)
+    private fun checkExpression(expression:String) : Boolean{
+        for (i in expression.indices)
+            if (expression[i] in operations)
+                return true
+        return false
+    }
+
+
+    private fun priorityOp(expression: String): Char?{
+        if ('(' in expression)
             return '('
-        if (math_expression[0] == '-')
-            return null
-        var priorityOp: Char? = null
+
+        var operation: Char? = null
         val operationsFp = "*/"
         val operationsSp = "+-"
-        for (c in math_expression){
+        for (c in expression){
             if (c in operationsFp){
-                priorityOp = c
+                operation = c
                 break
             }
-            if (c in operationsSp && priorityOp == null)
-                priorityOp = c
+            if (c in operationsSp && operation == null)
+                operation = c
         }
 
-        return priorityOp
+        return operation
     }
 
-    private fun findMinus(expression: String){
 
-    }
-
-    fun indexClosingBracket(expression: String, indexOpenBracket: Int): Int{
+    private fun indexClosingBracket(expression: String, indexOpenBracket: Int): Int{
         var k_brackets = 0
         for (i in indexOpenBracket until expression.length){
             if (expression[i] == '(')
@@ -40,76 +44,99 @@ class Calculator {
         return 0
     }
 
+
+    private fun indicesSubstring(expression: String, indexOperation: Int): IntArray{
+        val indices: IntArray = intArrayOf(0, 0)
+
+        for (j in (indexOperation - 1) downTo 0){
+            if (expression[j] in operations) {
+
+                indices[0] = j + 1
+                break
+            }
+            indices[0] = j
+        }
+
+        for (j in (indexOperation + 1) until expression.length) {
+            if (expression[j] in operations) {
+                indices[1] = j - 1
+                break
+            }
+            indices[1] = expression.length - 1
+        }
+
+        return indices
+    }
+
+    private fun replaceMinus(expression: String): String{
+        var result = expression
+        if (result[0] == '-')
+            result = result.replaceFirst('-', 'n')
+        val chars = result.toCharArray()
+        for (i in 0..chars.lastIndex){
+            if (chars[i] == '(' && chars[i + 1] == '-')
+                chars[i + 1] = 'n'
+        }
+        result = String(chars)
+        return result
+    }
+
     private fun formatAnswer(answer: String): String{
-        val list = answer.split('.')
+        if ('.' !in answer)
+            return answer.replace('n', '-')
+        var list = (answer.split('.')).toTypedArray()
+        list[0] = list[0].replace('n', '-')
         if (list[1] == "0")
             return list[0]
         else
-            return answer
+            return answer.replace('n', '-')
     }
 
-    fun calc(in_expression: String): String{
-        var str = in_expression
 
-        for (i in in_expression.indices) {
-            if (in_expression[i] in operations)
-                break
-            if (i == in_expression.length - 1)
-                return in_expression
-        }
 
-        while(true){
-            val operation: Char = priorityOp(str) ?: break
-            for (i in str.indices){
-                if (str[i] == operation) {
-                    if (operation == '('){
-                        val expression = str.substring(i + 1, indexClosingBracket(str, i))
-                        var strRes = calc(expression)
-                        str = str.replaceFirst(str.substring(i, indexClosingBracket(str, i) + 1), strRes)
-                        break
-                    }
-                    else{
-                        var iLVal  = 0
-                        var iRVal = 0
-                        for (j in (i - 1) downTo 0) {
-                            if (str[j] in operations) {
+    fun calc(expression: String) : String{
+        var resultExpression = replaceMinus(expression)
+        while (checkExpression(resultExpression)){
+            val operation: Char = priorityOp(resultExpression) ?: break
 
-                                iLVal = j + 1
-                                break
-                            }
-                            iLVal = j
-                        }
-                        for (j in (i + 1) until str.length) {
-                            if (str[j] in operations) {
-                                iRVal = j - 1
-                                break
-                            }
-                            iRVal = str.length - 1
-                        }
+            val iOp = resultExpression.indexOf(operation)
 
-                        val expression = str.substring(iLVal, iRVal + 1)
-                        val list = expression.split(operation)
-                        var strRes = "0"
+            if (resultExpression[iOp] == operation){
+                if (operation == '('){
+                    var subexpression = resultExpression.substring(iOp + 1, indexClosingBracket(resultExpression, iOp))
 
-                        when(operation){
-                            '*' -> strRes = (list[0].toFloat() * list[1].toFloat()).toString()
-                            '/' -> strRes = (list[0].toFloat() / list[1].toFloat()).toString()
-                            '+' -> strRes = (list[0].toFloat() + list[1].toFloat()).toString()
-                            '-' -> strRes = (list[0].toFloat() - list[1].toFloat()).toString()
-                        }
-                        println("strRes")
-                        str = str.replaceFirst(expression, strRes)
-                        break
+                    subexpression = calc(subexpression)
+                    resultExpression = resultExpression.replaceFirst(resultExpression.substring(iOp, indexClosingBracket(resultExpression, iOp) + 1), subexpression)
+                }
+
+                else{
+
+                    val indicesSub = indicesSubstring(resultExpression, iOp)
+
+                    val subexpression = resultExpression.substring(indicesSub[0], indicesSub[1] + 1)
+                    val numInSub = (subexpression.split(operation)).toTypedArray()
+                    for (i in 0..numInSub.lastIndex)
+                        numInSub[i] = numInSub[i].replace('n', '-')
+
+                    var subexpRes = "0"
+                    when (operation){
+                        '*' -> subexpRes = (numInSub[0].toFloat() * numInSub[1].toFloat()).toString()
+                        '/' -> subexpRes = (numInSub[0].toFloat() / numInSub[1].toFloat()).toString()
+                        '+' -> subexpRes = (numInSub[0].toFloat() + numInSub[1].toFloat()).toString()
+                        '-' -> subexpRes = (numInSub[0].toFloat() - numInSub[1].toFloat()).toString()
                     }
 
+                    subexpRes = subexpRes.replace('-', 'n')
+                    resultExpression = resultExpression.replaceFirst(subexpression, subexpRes)
                 }
             }
+
         }
-
-        return formatAnswer(str)
+        return resultExpression
     }
-}
 
-/*fun main(){
-    println(Calculator().calc("2-3"))
-}*/
+    fun formatCalc(expression: String): String{
+        return formatAnswer(calc(expression))
+    }
+
+}
