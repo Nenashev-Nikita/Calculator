@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-
+    /*bebra*/
     private val MAX_LENGTH: Int = 15
 
     private var inputStr: String = ""
