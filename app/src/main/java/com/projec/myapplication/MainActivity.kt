@@ -19,7 +19,19 @@ class MainActivity : AppCompatActivity() {
 
     private val calculator: Calculator = Calculator()
 
+    private fun isExpression(inputStr: String): Boolean {
+        for (i in inputStr.indices) {
+            if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
+                return true
+            }
+        }
+        return false
+    }
+
     private fun printRes(inputStr: String): String {
+        if (!isExpression(inputStr)) {
+            return ""
+        }
         if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
             outputStr = inputStr.replaceFirst(".$".toRegex(), "")
             outputStr = calculator.formatCalc(outputStr)
@@ -59,16 +71,12 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-    private fun checkSize(inputStr: String) {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.textView)
-        val historyTextView: TextView = findViewById(R.id.textView4)
+        val textView: TextView = findViewById(R.id.textView4)
+        val historyTextView: TextView = findViewById(R.id.textView)
 
         val toast = Toast.makeText(applicationContext, "Иди нахуй, пидор. Строка не резиновая", Toast.LENGTH_SHORT)
 
@@ -303,8 +311,18 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0) {
-                textView.text = inputStr
+            if (inputStr.isEmpty()) {
+                if (isActive) {
+                    inputStr += "-"
+                    subInputStr += "-"
+                    textView.text = subInputStr
+                    historyTextView.text = ""
+                }
+                else {
+                    inputStr += "-"
+                    textView.text = inputStr
+                    historyTextView.text = ""
+                }
             }
             else if (inputStr[inputStr.length - 1] !in operations) {
                 if (isActive) {
@@ -422,6 +440,10 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || inputStr[inputStr.length - 1] == '(')) {
+                return@setOnClickListener
+            }
+
             isActive = true
             subInputStr = inputStr
             subInputStr += "("
@@ -437,7 +459,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty()) {
-                textView.text = inputStr
+                return@setOnClickListener
+            }
+            else if (inputStr[inputStr.length - 1] == ')' || inputStr[inputStr.length - 1] == '(') {
+                return@setOnClickListener
             }
             else {
                 isActive = false
@@ -494,6 +519,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 inputStr = printRes(inputStr)
                 textView.text = inputStr
+                historyTextView.text = ""
             }
         }
     }
