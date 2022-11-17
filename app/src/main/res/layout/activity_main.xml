@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:text="@string/clr"
                     android:paddingBottom="10dp"
                     style="@style/Button_number.button_text"/>
@@ -208,6 +209,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/Button_number.button_text"
+                    android:maxLines="1"
                     android:text="@string/delit" />
 
                 <Button
