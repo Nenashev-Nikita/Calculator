@@ -17,30 +17,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="550dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="12dp"
                 android:layout_weight="1"
                 android:gravity="right|center"
                 android:textColor="@color/black_2"
-                android:textSize="33sp"
-                android:layout_margin="12dp" />
+                />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="12dp"
                 android:layout_weight="1"
-                android:textSize="30sp"
                 android:gravity="right|center"
                 android:textColor="@color/black"
-                android:layout_margin="12dp"/>
+                android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -63,7 +62,6 @@
                     android:layout_weight="1"
                     android:text="@string/clr"
                     android:paddingBottom="10dp"
-                    android:textSize="28dp"
                     style="@style/Button_number.button_text"/>
 
 
