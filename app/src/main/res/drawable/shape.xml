@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@color/white"/>
-            <gradient
+            <solid android:color="@color/blue_fon"/>
+            <!--<gradient
                 android:endColor="#FFECDB"
                 android:startColor="#FFFFFF"
-                android:angle="90"/>
+                android:angle="90"/>-->
             <corners
                 android:bottomRightRadius="30dip"
                 android:bottomLeftRadius="30dip"/>

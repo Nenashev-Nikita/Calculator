@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Button_number">
-        <item name="backgroundTint">@color/ping</item>
+        <item name="backgroundTint">@color/blue_2</item>
     </style>
     <style name="Button_operation.button_text" >
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:autoSizeMinTextSize">12sp</item>
         <item name="android:autoSizeMaxTextSize">33sp</item>
@@ -12,10 +12,10 @@
     </style>
 
     <style name="Button_operation">
-        <item name="backgroundTint">@color/ping_2</item>
+        <item name="backgroundTint">@color/blue_fon</item>
     </style>
     <style name="Button_number.button_text" >
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:autoSizeMinTextSize">12sp</item>
         <item name="android:autoSizeMaxTextSize">33sp</item>

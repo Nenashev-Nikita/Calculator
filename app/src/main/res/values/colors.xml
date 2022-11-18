@@ -10,9 +10,10 @@
     <color name="gray">#E5E4E2</color>
     <color name="gray_2">#DCDCDC</color>
     <color name="orange">#FF9500</color>
+    <color name="color_text">#2c7ab9</color>
     <color name="blue">#7FC7FF</color>
-    <color name="blue_fon">#DCFBFF</color>
-    <color name="blue_2">#ACE5EE</color>
+    <color name="blue_fon">#edf4fb</color>
+    <color name="blue_2">#d9e9f6</color>
     <color name="ping">#FFDAB7</color>
     <color name="ping_2">#FFECDB</color>
     <color name="ping_fon">#FFDEDB</color>
