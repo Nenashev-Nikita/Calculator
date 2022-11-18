@@ -1,20 +1,10 @@
 package com.projec.myapplication
 
-import android.graphics.Color
-import android.graphics.Typeface
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,41 +20,54 @@ class MainActivity : AppCompatActivity() {
     private val calculator: Calculator = Calculator()
 
     private fun isExpression(inputStr: String): Boolean {
-        for (i in inputStr.indices) {
+        var border = 1
+        if (inputStr.isNotEmpty() && inputStr[0] == '(')
+            border = 2
+        for (i in border until inputStr.length) {
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
             }
         }
+
+        if (inputStr.isEmpty() || inputStr[0] == '-' || (inputStr[0] == '(' && inputStr[1] == '-')) {
+            return false
+        }
         return false
     }
 
-    private fun printRes(inputStr: String): String {
-        if (!isExpression(inputStr)) {
-            return ""
+    private fun addStr(inputStr: String): String {
+        outputStr = if (inputStr[inputStr.length - 1] in wkOperations) {
+            inputStr.replaceFirst(".$".toRegex(), "")
         }
-        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
-            outputStr = inputStr.replaceFirst(".$".toRegex(), "")
-            outputStr = calculator.formatCalc(outputStr)
+        else {
+            inputStr
+        }
+        if (isActive && outputStr[outputStr.length - 1] != '(') {
+            outputStr = "$outputStr)"
             return outputStr
         }
-        if (inputStr.isEmpty()) {
-            outputStr = inputStr
-        }
-        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] !in wkOperations) {
-            outputStr = calculator.formatCalc(inputStr)
+        else if (isActive && outputStr[outputStr.length - 1] == '(') {
+            outputStr = outputStr.replaceFirst(".$".toRegex(), "")
+            return outputStr
         }
         return outputStr
     }
 
-    private fun deleteBrackets(inputStr: String): String {
-        outputStr = inputStr
-        for (i in inputStr.indices) {
-            if (inputStr[i] == '(') {
-                outputStr = outputStr.replace("\\(".toRegex(), "")
-            }
-            else if (inputStr[i] == ')') {
-                outputStr = outputStr.replace("\\)".toRegex(), "")
-            }
+    private fun printRes(inputStr: String): String {
+        subInputStr = addStr(inputStr)
+        if (!isExpression(subInputStr)) {
+            return ""
+        }
+        if (subInputStr.isNotEmpty() && subInputStr[subInputStr.length - 1] in wkOperations) {
+            outputStr = subInputStr.replaceFirst(".$".toRegex(), "")
+            outputStr = calculator.formatCalc(outputStr)
+            return outputStr
+        }
+        if (subInputStr.isEmpty()) {
+            outputStr = inputStr
+        }
+        if (subInputStr.isNotEmpty() && subInputStr[subInputStr.length - 1] !in wkOperations) {
+            outputStr = calculator.formatCalc(subInputStr)
         }
         return outputStr
     }
@@ -79,18 +82,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return false
-    }
-
-    private fun span(str: String): Spannable{
-        val text: Spannable = SpannableString(str)
-        for (i in 0 until str.length){
-            if (str[i] in wkOperations){
-                text.setSpan(AbsoluteSizeSpan(100), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                text.setSpan(ForegroundColorSpan(Color.RED),  i, i + 1,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-        }
-        return text
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,17 +100,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "1"
-                subInputStr += "1"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "1"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "1"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonTwo: Button = findViewById(R.id.button_two)
@@ -129,17 +116,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "2"
-                subInputStr += "2"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "2"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "2"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonThree: Button = findViewById(R.id.button_three)
@@ -149,17 +132,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "3"
-                subInputStr += "3"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "3"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "3"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonFour: Button = findViewById(R.id.button_four)
@@ -169,17 +148,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "4"
-                subInputStr += "4"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "4"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "4"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonFive: Button = findViewById(R.id.button_five)
@@ -189,17 +164,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "5"
-                subInputStr += "5"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "5"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "5"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonSix: Button = findViewById(R.id.button_six)
@@ -209,17 +180,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "6"
-                subInputStr += "6"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "6"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "6"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonSeven: Button = findViewById(R.id.button_seven)
@@ -229,17 +196,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "7"
-                subInputStr += "7"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "7"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "7"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonEight: Button = findViewById(R.id.button_eight)
@@ -249,17 +212,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "8"
-                subInputStr += "8"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "8"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "8"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonNine: Button = findViewById(R.id.button_nine)
@@ -269,17 +228,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "9"
-                subInputStr += "9"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "9"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "9"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonZero: Button = findViewById(R.id.button13)
@@ -289,17 +244,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (isActive) {
-                inputStr += "0"
-                subInputStr += "0"
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            else {
-                inputStr += "0"
-                textView.text = span(inputStr)
-                historyTextView.text = printRes(inputStr)
-            }
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
+            inputStr += "0"
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
+
         }
 
         val buttonPlus: Button = findViewById(R.id.button11)
@@ -309,22 +260,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0)
+            if (inputStr.isEmpty())
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    inputStr += "+"
-                    subInputStr += "+"
-
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-                else {
-                    inputStr += "+"
-
-                    textView.text = span(inputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
+                inputStr += "+"
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
             }
         }
 
@@ -336,30 +277,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty()) {
-                if (isActive) {
-                    inputStr += "-"
-                    subInputStr += "-"
-                    textView.text = span(subInputStr)
-                    historyTextView.text = ""
-                }
-                else {
-                    inputStr += "-"
-                    textView.text = span(inputStr)
-                    historyTextView.text = ""
-                }
+                inputStr += "-"
+                textView.text = inputStr
+                historyTextView.text = ""
             }
             else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    inputStr += "-"
-                    subInputStr += "-"
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-                else {
-                    inputStr += "-"
-                    textView.text = span(inputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
+                inputStr += "-"
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
             }
         }
 
@@ -370,20 +295,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0)
+            if (inputStr.isEmpty())
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    inputStr += "*"
-                    subInputStr += "*"
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-                else {
-                    inputStr += "*"
-                    textView.text = span(inputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
+                inputStr += "*"
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
             }
         }
 
@@ -394,56 +311,46 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0)
+            if (inputStr.isEmpty())
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    inputStr += "/"
-                    subInputStr += "/"
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-                else {
-                    inputStr += "/"
-                    textView.text = span(inputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
+                inputStr += "/"
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
             }
         }
 
         val buttonDelete: Button = findViewById(R.id.button10)
         buttonDelete.setOnClickListener {
             if (inputStr.isEmpty()) {
+                return@setOnClickListener
+            }
+            if (inputStr.length == 1) {
                 isActive = false
-                textView.text = ""
+                inputStr = ""
+                textView.text = inputStr
                 historyTextView.text = ""
                 return@setOnClickListener
             }
             if (inputStr[inputStr.length - 1] == ')') {
                 isActive = true
-                subInputStr = inputStr
-                inputStr = deleteBrackets(inputStr)
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(inputStr)
-            }
-            if (isActive) {
-                if (subInputStr[subInputStr.length - 1] in "()") {
-                    subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-                else {
-                    inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-                    subInputStr = subInputStr.replaceFirst(".$".toRegex(), "")
-                    textView.text = span(subInputStr)
-                    historyTextView.text = printRes(inputStr)
-                }
-            }
-            else {
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-                textView.text = span(inputStr)
+                textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
+                return@setOnClickListener
             }
+
+            if (inputStr[inputStr.length - 1] == '(') {
+                isActive = false
+                inputStr = inputStr.replaceFirst(".$".toRegex(), "")
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
+                return@setOnClickListener
+            }
+
+            inputStr = inputStr.replaceFirst(".$".toRegex(), "")
+            textView.text = inputStr
+            historyTextView.text = printRes(inputStr)
         }
 
         val buttonClear: Button = findViewById(R.id.button15)
@@ -453,7 +360,7 @@ class MainActivity : AppCompatActivity() {
                 subInputStr = ""
             }
             inputStr = ""
-            textView.text = span(inputStr)
+            textView.text = inputStr
             historyTextView.text = ""
         }
 
@@ -464,14 +371,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || inputStr[inputStr.length - 1] == '(')) {
+            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive || inputStr[inputStr.length - 1] in "1234567890")) {
                 return@setOnClickListener
             }
 
             isActive = true
-            subInputStr = inputStr
-            subInputStr += "("
-            textView.text = span(subInputStr)
+            inputStr += "("
+            textView.text = inputStr
             historyTextView.text = printRes(inputStr)
         }
 
@@ -485,15 +391,14 @@ class MainActivity : AppCompatActivity() {
             if (inputStr.isEmpty()) {
                 return@setOnClickListener
             }
-            else if (inputStr[inputStr.length - 1] == ')' || inputStr[inputStr.length - 1] == '(') {
+            else if (inputStr[inputStr.length - 1] == '(' || !isActive || inputStr[inputStr.length - 1] in operations) {
                 return@setOnClickListener
             }
             else {
                 isActive = false
-                subInputStr += ")"
-                inputStr = subInputStr
-                textView.text = span(subInputStr)
-                historyTextView.text = printRes(subInputStr)
+                inputStr += ")"
+                textView.text = inputStr
+                historyTextView.text = printRes(inputStr)
             }
         }
 
@@ -504,47 +409,30 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0)
+            if (inputStr.isEmpty() || inputStr[inputStr.length - 1] in "()")
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    if (!checkDot(inputStr)) {
-                        inputStr += "."
-                        subInputStr += "."
-                        textView.text = span(subInputStr)
-                        historyTextView.text = printRes(inputStr)
-                    }
-                    else {
-                        textView.text = span(subInputStr)
-                        historyTextView.text = printRes(inputStr)
-                    }
+                if (!checkDot(inputStr)) {
+                    inputStr += "."
+                    textView.text = inputStr
+                    historyTextView.text = printRes(inputStr)
                 }
                 else {
-                    if (!checkDot(inputStr)) {
-                        inputStr += "."
-                        textView.text = span(inputStr)
-                        historyTextView.text = printRes(inputStr)
-                    }
-                    else {
-                        textView.text = span(inputStr)
-                        historyTextView.text = printRes(inputStr)
-                    }
+                    textView.text = inputStr
+                    historyTextView.text = printRes(inputStr)
                 }
             }
         }
 
         val buttonIs: Button = findViewById(R.id.button12)
         buttonIs.setOnClickListener {
-            if (inputStr.isEmpty())
+            if (inputStr.isEmpty()) {
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    isActive = false
-                }
-                inputStr = printRes(inputStr)
-                textView.text = inputStr
-                historyTextView.text = ""
+                return@setOnClickListener
             }
+            inputStr = printRes(inputStr)
+            textView.text = inputStr
+            historyTextView.text = ""
         }
     }
 }
