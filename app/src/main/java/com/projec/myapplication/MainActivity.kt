@@ -262,7 +262,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations) {
+            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] !in "()") {
                 inputStr += "+"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -297,7 +297,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations) {
+            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] !in "()") {
                 inputStr += "*"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -313,7 +313,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations) {
+            else if (inputStr[inputStr.length - 1] !in operations && inputStr[inputStr.length - 1] !in "()") {
                 inputStr += "/"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -371,7 +371,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive || inputStr[inputStr.length - 1] in "1234567890")) {
+            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive || inputStr[inputStr.length - 1] in "1234567890.")) {
                 return@setOnClickListener
             }
 
