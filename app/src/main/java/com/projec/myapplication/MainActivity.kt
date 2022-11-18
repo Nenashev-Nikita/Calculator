@@ -426,16 +426,13 @@ class MainActivity : AppCompatActivity() {
 
         val buttonIs: Button = findViewById(R.id.button12)
         buttonIs.setOnClickListener {
-            if (inputStr.isEmpty())
+            if (inputStr.isEmpty()) {
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations) {
-                if (isActive) {
-                    isActive = false
-                }
-                inputStr = printRes(inputStr)
-                textView.text = inputStr
-                historyTextView.text = ""
+                return@setOnClickListener
             }
+            inputStr = printRes(inputStr)
+            textView.text = inputStr
+            historyTextView.text = ""
         }
     }
 }
