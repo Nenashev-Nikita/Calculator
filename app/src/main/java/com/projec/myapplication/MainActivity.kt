@@ -83,11 +83,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun span(str: String): Spannable{
         val text: Spannable = SpannableString(str)
+        val colors = arrayOf(Color.RED, Color.BLACK, Color.BLUE, Color.CYAN, Color.DKGRAY, Color.YELLOW, Color.LTGRAY, Color.GRAY, Color.TRANSPARENT)
         for (i in 0 until str.length){
-            if (str[i] in wkOperations){
+            //if (str[i] in wkOperations){
                 text.setSpan(AbsoluteSizeSpan(100), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                text.setSpan(ForegroundColorSpan(Color.RED),  i, i + 1,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+                text.setSpan(ForegroundColorSpan(colors[(0..colors.size-1).random()]),  i, i + 1,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //`}
 
         }
         return text
