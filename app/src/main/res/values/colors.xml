@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#E5E4E2</color>
     <color name="gray_2">#DCDCDC</color>
-    <color name="orange">#FF9900</color>
+    <color name="orange">#FF9500</color>
     <color name="blue">#7FC7FF</color>
-    <color name="blue_2">#4682B4</color>
-    <color name="blue_fon">#80C3FF</color>
+    <color name="blue_fon">#DCFBFF</color>
+    <color name="blue_2">#ACE5EE</color>
+    <color name="ping">#FFDAB7</color>
+    <color name="ping_2">#FFECDB</color>
     <color name="red">#FF2400</color>
     <color name="gray_3">#D5D5D5</color>
     <color name="black_2">#1C1C1C</color>
