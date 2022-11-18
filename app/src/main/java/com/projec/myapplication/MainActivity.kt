@@ -21,12 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun isExpression(inputStr: String): Boolean {
         for (i in 1 until inputStr.length) {
+            if (inputStr[0] == '(')
+                break
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
             }
         }
 
-        if (inputStr.isEmpty() ||inputStr[0] == '-') {
+        if (inputStr.isEmpty() || inputStr[0] == '-' || (inputStr[0] == '(' && inputStr[1] == '-')) {
             return false
         }
         return false
@@ -406,7 +408,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.length == 0)
+            if (inputStr.isEmpty() || inputStr[inputStr.length - 1] in "()")
                 textView.text = inputStr
             else if (inputStr[inputStr.length - 1] !in operations) {
                 if (!checkDot(inputStr)) {
