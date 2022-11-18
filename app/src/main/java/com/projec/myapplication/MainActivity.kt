@@ -20,10 +20,14 @@ class MainActivity : AppCompatActivity() {
     private val calculator: Calculator = Calculator()
 
     private fun isExpression(inputStr: String): Boolean {
-        for (i in inputStr.indices) {
+        for (i in 1 until inputStr.length) {
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
             }
+        }
+
+        if (inputStr.isEmpty() ||inputStr[0] == '-') {
+            return false
         }
         return false
     }
@@ -63,35 +67,6 @@ class MainActivity : AppCompatActivity() {
             outputStr = calculator.formatCalc(subInputStr)
         }
         return outputStr
-
-        /*if (!isExpression(inputStr)) {
-            return ""
-        }
-        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] in wkOperations) {
-            outputStr = inputStr.replaceFirst(".$".toRegex(), "")
-            outputStr = calculator.formatCalc(outputStr)
-            return outputStr
-        }
-        if (inputStr.isEmpty()) {
-            outputStr = inputStr
-        }
-        if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] !in wkOperations) {
-            outputStr = calculator.formatCalc(inputStr)
-        }
-        return outputStr*/
-    }
-
-    private fun deleteBrackets(inputStr: String): String {
-        outputStr = inputStr
-        for (i in inputStr.indices) {
-            if (inputStr[i] == '(') {
-                outputStr = outputStr.replace("\\(".toRegex(), "")
-            }
-            else if (inputStr[i] == ')') {
-                outputStr = outputStr.replace("\\)".toRegex(), "")
-            }
-        }
-        return outputStr
     }
 
     private fun checkDot(inputStr: String): Boolean {
@@ -122,6 +97,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
             inputStr += "1"
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -134,6 +112,9 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
                 return@setOnClickListener
             }
+
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
 
             inputStr += "2"
             textView.text = inputStr
@@ -148,6 +129,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
             inputStr += "3"
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -160,6 +144,9 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
                 return@setOnClickListener
             }
+
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
 
             inputStr += "4"
             textView.text = inputStr
@@ -174,6 +161,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
             inputStr += "5"
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -186,6 +176,9 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
                 return@setOnClickListener
             }
+
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
 
             inputStr += "6"
             textView.text = inputStr
@@ -200,6 +193,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
             inputStr += "7"
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -212,6 +208,9 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
                 return@setOnClickListener
             }
+
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
 
             inputStr += "8"
             textView.text = inputStr
@@ -226,6 +225,9 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
+
             inputStr += "9"
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -238,6 +240,9 @@ class MainActivity : AppCompatActivity() {
                 toast.show()
                 return@setOnClickListener
             }
+
+            if (inputStr.isNotEmpty() && inputStr[inputStr.length - 1] == ')')
+                return@setOnClickListener
 
             inputStr += "0"
             textView.text = inputStr
@@ -363,7 +368,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive)) {
+            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive || inputStr[inputStr.length - 1] in "1234567890")) {
                 return@setOnClickListener
             }
 

@@ -20,7 +20,7 @@
             android:layout_height="550dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:background="@drawable/shape">
+            android:background="@drawable/shapes">
 
             <TextView
                 android:id="@+id/textView4"
