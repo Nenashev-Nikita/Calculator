@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray_2"
+    android:background="@color/white"
     >
 
 
@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:gravity="right|center"
                 android:textColor="@color/black_2"
-                />
+                android:textSize="33sp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -208,8 +208,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    style="@style/Button_number.button_text"
                     android:maxLines="1"
+                    style="@style/Button_number.button_text"
                     android:text="@string/delit" />
 
                 <Button
