@@ -20,9 +20,10 @@ class MainActivity : AppCompatActivity() {
     private val calculator: Calculator = Calculator()
 
     private fun isExpression(inputStr: String): Boolean {
-        for (i in 1 until inputStr.length) {
-            if (inputStr[0] == '(')
-                break
+        var border = 1
+        if (inputStr.isNotEmpty() && inputStr[0] == '(')
+            border = 2
+        for (i in border until inputStr.length) {
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
             }
@@ -390,7 +391,7 @@ class MainActivity : AppCompatActivity() {
             if (inputStr.isEmpty()) {
                 return@setOnClickListener
             }
-            else if (inputStr[inputStr.length - 1] == '(' || !isActive) {
+            else if (inputStr[inputStr.length - 1] == '(' || !isActive || inputStr[inputStr.length - 1] in operations) {
                 return@setOnClickListener
             }
             else {
