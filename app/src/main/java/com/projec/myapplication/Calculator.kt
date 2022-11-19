@@ -5,7 +5,7 @@ class Calculator {
 
     private fun checkExpression(expression:String) : Boolean{
         for (i in expression.indices)
-            if (expression[i] in operations)
+            if (expression[i] in operations || expression[i] == '(')
                 return true
         return false
     }
@@ -71,28 +71,31 @@ class Calculator {
     private fun replaceMinus(expression: String): String{
         var result = expression
         if (result[0] == '-')
-            result = result.replaceFirst('-', 'n')
+            result = result.replaceFirst('-', 'm')
         val chars = result.toCharArray()
         for (i in 0..chars.lastIndex){
             if (chars[i] == '(' && chars[i + 1] == '-')
-                chars[i + 1] = 'n'
+                chars[i + 1] = 'm'
         }
         result = String(chars)
         return result
     }
 
     private fun formatAnswer(answer: String): String{
+
         if ('.' !in answer)
-            return answer.replace('n', '-')
+            return answer.replace('m', '-')
         var list = (answer.split('.')).toTypedArray()
-        list[0] = list[0].replace('n', '-')
+        list[0] = list[0].replace('m', '-')
         if (list[1] == "0")
             return list[0]
         else
-            return answer.replace('n', '-')
+            return answer.replace('m', '-')
     }
 
-
+    private fun countCh(str: String, ch: Char): Int{
+        return str.filter { it == ch }.count()
+    }
 
     fun calc(expression: String) : String{
         var resultExpression = replaceMinus(expression)
@@ -107,6 +110,7 @@ class Calculator {
 
                     subexpression = calc(subexpression)
                     resultExpression = resultExpression.replaceFirst(resultExpression.substring(iOp, indexClosingBracket(resultExpression, iOp) + 1), subexpression)
+                    println(resultExpression)
                 }
 
                 else{
@@ -115,8 +119,13 @@ class Calculator {
 
                     val subexpression = resultExpression.substring(indicesSub[0], indicesSub[1] + 1)
                     val numInSub = (subexpression.split(operation)).toTypedArray()
-                    for (i in 0..numInSub.lastIndex)
-                        numInSub[i] = numInSub[i].replace('n', '-')
+                    for (i in 0..numInSub.lastIndex){
+                        if (countCh(numInSub[i], 'm') % 2 == 0)
+                            numInSub[i] = numInSub[i].replace("m", "")
+                        else numInSub[i] = numInSub[i].replace("m".repeat(countCh(numInSub[i], 'm')), "-")
+                    }
+
+
 
                     var subexpRes = "0"
                     when (operation){
@@ -126,12 +135,12 @@ class Calculator {
                         '-' -> subexpRes = (numInSub[0].toFloat() - numInSub[1].toFloat()).toString()
                     }
 
-                    subexpRes = subexpRes.replace('-', 'n')
+                    subexpRes = subexpRes.replace('-', 'm')
                     resultExpression = resultExpression.replaceFirst(subexpression, subexpRes)
                 }
             }
-
         }
+
         return resultExpression
     }
 
@@ -140,3 +149,4 @@ class Calculator {
     }
 
 }
+
