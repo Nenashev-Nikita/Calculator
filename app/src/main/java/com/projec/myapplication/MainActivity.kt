@@ -22,13 +22,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun isExpression(inputStr: String): Boolean {
         var border = if (numberOfBrackets != 0) {
-            numberOfBrackets
+            numberOfBrackets + 1
         }
         else {
             1
         }
-        if (inputStr.isNotEmpty() && (inputStr[border - 1] == '(')/* || inputStr[1] == '(')*/)
-            border++
+        /*if (inputStr.isNotEmpty() && (inputStr[border - 1] == '(')*//* || inputStr[1] == '(')*//*)
+            border++*/
         for (i in border until inputStr.length) {
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             inputStr
         }
         if (isActive && outputStr[outputStr.length - 1] != '(') {
-            outputStr = "$outputStr)"
+            outputStr += ")"
             return outputStr
         }
         else if (isActive && outputStr[outputStr.length - 1] == '(') {
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         val textView: TextView = findViewById(R.id.textView4)
         val historyTextView: TextView = findViewById(R.id.textView)
 
-        val toast = Toast.makeText(applicationContext, "Иди нахуй, пидор. Строка не резиновая", Toast.LENGTH_SHORT)
+        val toast = Toast.makeText(applicationContext, "Строка не резиновая", Toast.LENGTH_SHORT)
 
         val buttonOne: Button = findViewById(R.id.button_one)
         buttonOne.setOnClickListener {
@@ -338,6 +338,7 @@ class MainActivity : AppCompatActivity() {
             }
             if (inputStr.length == 1) {
                 isActive = false
+                numberOfBrackets = 0
                 inputStr = ""
                 textView.text = inputStr
                 historyTextView.text = ""
@@ -345,6 +346,7 @@ class MainActivity : AppCompatActivity() {
             }
             if (inputStr[inputStr.length - 1] == ')') {
                 isActive = true
+                numberOfBrackets++
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
