@@ -241,7 +241,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     style="@style/Button_number.button_text"
-                    android:textColor="@color/red"
                     android:text="@string/equally" />
             </LinearLayout>
         </LinearLayout>
