@@ -15,14 +15,20 @@ class MainActivity : AppCompatActivity() {
     private var outputStr: String = ""
     private val operations = "*/+-."
     private val wkOperations = "*/+-"
+    private var numberOfBrackets = 0
     private var isActive: Boolean = false
 
     private val calculator: Calculator = Calculator()
 
     private fun isExpression(inputStr: String): Boolean {
-        var border = 1
-        if (inputStr.isNotEmpty() && inputStr[0] == '(')
-            border = 2
+        var border = if (numberOfBrackets != 0) {
+            numberOfBrackets
+        }
+        else {
+            1
+        }
+        if (inputStr.isNotEmpty() && (inputStr[border - 1] == '(')/* || inputStr[1] == '(')*/)
+            border++
         for (i in border until inputStr.length) {
             if (inputStr[i] in wkOperations && i != inputStr.length - 1) {
                 return true
@@ -54,7 +60,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun printRes(inputStr: String): String {
-        subInputStr = addStr(inputStr)
+        subInputStr = inputStr
+        if (numberOfBrackets != 0) {
+            for (i in 1..numberOfBrackets) {
+                subInputStr = addStr(subInputStr)
+            }
+        }
         if (!isExpression(subInputStr)) {
             return ""
         }
@@ -262,7 +273,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] !in "()") {
+            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1]  != '(') {
                 inputStr += "+"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -297,7 +308,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] !in "()") {
+            else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] != '(') {
                 inputStr += "*"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -313,7 +324,7 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty())
                 textView.text = inputStr
-            else if (inputStr[inputStr.length - 1] !in operations && inputStr[inputStr.length - 1] !in "()") {
+            else if (inputStr[inputStr.length - 1] !in operations && inputStr[inputStr.length - 1] != '(') {
                 inputStr += "/"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -341,7 +352,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr[inputStr.length - 1] == '(') {
-                isActive = false
+                if (numberOfBrackets == 1) {
+                    isActive = false
+                }
+                numberOfBrackets--
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
@@ -357,6 +371,7 @@ class MainActivity : AppCompatActivity() {
         buttonClear.setOnClickListener {
             if (isActive) {
                 isActive = false
+                numberOfBrackets = 0
                 subInputStr = ""
             }
             inputStr = ""
@@ -371,11 +386,14 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' || isActive || inputStr[inputStr.length - 1] in "1234567890.")) {
+            if (inputStr.isNotEmpty() && (inputStr[inputStr.length - 1] == ')' /*|| isActive*/ || inputStr[inputStr.length - 1] in "1234567890.")) {
                 return@setOnClickListener
             }
 
-            isActive = true
+            if (numberOfBrackets == 0) {
+                isActive = true
+            }
+            numberOfBrackets++
             inputStr += "("
             textView.text = inputStr
             historyTextView.text = printRes(inputStr)
@@ -395,7 +413,10 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             else {
-                isActive = false
+                if (numberOfBrackets == 1) {
+                    isActive = false
+                }
+                numberOfBrackets--
                 inputStr += ")"
                 textView.text = inputStr
                 historyTextView.text = printRes(inputStr)
