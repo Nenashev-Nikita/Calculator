@@ -1,7 +1,13 @@
 package com.projec.myapplication
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -95,6 +101,18 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    private fun span(str: String): Spannable {
+        val text: Spannable = SpannableString(str)
+        for (i in 0 until str.length){
+            if (str[i] in wkOperations){
+                text.setSpan(AbsoluteSizeSpan(100), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                text.setSpan(ForegroundColorSpan(Color.rgb(44, 122, 185)),  i, i + 1,  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+        }
+        return text
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -115,7 +133,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "1"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -131,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "2"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -147,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "3"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -163,7 +181,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "4"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -179,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "5"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -195,7 +213,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "6"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -211,7 +229,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "7"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -227,7 +245,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "8"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -243,7 +261,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "9"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -259,7 +277,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
 
             inputStr += "0"
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
 
         }
@@ -272,10 +290,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty())
-                textView.text = inputStr
+                textView.text = span(inputStr)
             else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1]  != '(') {
                 inputStr += "+"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
             }
         }
@@ -289,12 +307,12 @@ class MainActivity : AppCompatActivity() {
 
             if (inputStr.isEmpty()) {
                 inputStr += "-"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = ""
             }
             else if (inputStr[inputStr.length - 1] !in operations) {
                 inputStr += "-"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
             }
         }
@@ -307,10 +325,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty())
-                textView.text = inputStr
+                textView.text = span(inputStr)
             else if (inputStr[inputStr.length - 1] !in operations  && inputStr[inputStr.length - 1] != '(') {
                 inputStr += "*"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
             }
         }
@@ -323,10 +341,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty())
-                textView.text = inputStr
+                textView.text = span(inputStr)
             else if (inputStr[inputStr.length - 1] !in operations && inputStr[inputStr.length - 1] != '(') {
                 inputStr += "/"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
             }
         }
@@ -340,7 +358,7 @@ class MainActivity : AppCompatActivity() {
                 isActive = false
                 numberOfBrackets = 0
                 inputStr = ""
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = ""
                 return@setOnClickListener
             }
@@ -348,7 +366,7 @@ class MainActivity : AppCompatActivity() {
                 isActive = true
                 numberOfBrackets++
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
                 return@setOnClickListener
             }
@@ -359,13 +377,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 numberOfBrackets--
                 inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
                 return@setOnClickListener
             }
 
             inputStr = inputStr.replaceFirst(".$".toRegex(), "")
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
         }
 
@@ -377,7 +395,7 @@ class MainActivity : AppCompatActivity() {
                 subInputStr = ""
             }
             inputStr = ""
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = ""
         }
 
@@ -397,7 +415,7 @@ class MainActivity : AppCompatActivity() {
             }
             numberOfBrackets++
             inputStr += "("
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = printRes(inputStr)
         }
 
@@ -420,7 +438,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 numberOfBrackets--
                 inputStr += ")"
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 historyTextView.text = printRes(inputStr)
             }
         }
@@ -433,15 +451,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (inputStr.isEmpty() || inputStr[inputStr.length - 1] in "()")
-                textView.text = inputStr
+                textView.text = span(inputStr)
             else if (inputStr[inputStr.length - 1] !in operations) {
                 if (!checkDot(inputStr)) {
                     inputStr += "."
-                    textView.text = inputStr
+                    textView.text = span(inputStr)
                     historyTextView.text = printRes(inputStr)
                 }
                 else {
-                    textView.text = inputStr
+                    textView.text = span(inputStr)
                     historyTextView.text = printRes(inputStr)
                 }
             }
@@ -450,11 +468,11 @@ class MainActivity : AppCompatActivity() {
         val buttonIs: Button = findViewById(R.id.button12)
         buttonIs.setOnClickListener {
             if (inputStr.isEmpty()) {
-                textView.text = inputStr
+                textView.text = span(inputStr)
                 return@setOnClickListener
             }
             inputStr = printRes(inputStr)
-            textView.text = inputStr
+            textView.text = span(inputStr)
             historyTextView.text = ""
         }
     }
